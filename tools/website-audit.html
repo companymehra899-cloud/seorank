@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Audit Tool | OptiRank</title>
+  <meta name="description" content="Run a full website audit to detect technical SEO issues, broken links, redirect chains, missing canonicals, and sitemap problems, with prioritized fixes.">
+  <link rel="canonical" href="https://www.optirank.io/tools/website-audit.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Website Audit Tool | OptiRank">
+  <meta property="og:description" content="Find every issue holding your site back and get a prioritized fix list.">
+  <meta property="og:url" content="https://www.optirank.io/tools/website-audit.html">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site.js" defer></script>
+</head>
+<body data-page="tool">
+  <!--#include header-->
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/index.html">Home</a> / <a href="/tools/index.html">Tools</a> / Website Audit</nav>
+        <h1 class="h1">Website Audit</h1>
+        <p class="sub" style="margin-left:0">Crawl your site, find technical SEO issues, and follow a prioritized plan to fix them.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <div>
+          <h2>Run an instant audit preview</h2>
+          <p class="sub" style="margin-left:0">Checks canonical URLs, meta titles and descriptions, redirects, internal links, privacy and terms pages, robots.txt, and sitemap.xml.</p>
+          <form id="auditForm">
+            <label for="audit-url">Website URL</label>
+            <input id="audit-url" name="url" type="text" placeholder="example.com" required>
+            <button class="btn btn-teal btn-full mt" type="submit">Run audit</button>
+            <div class="alert" role="status"></div>
+          </form>
+          <p class="note">Demo dataset generated locally. No outbound requests are made to the submitted host.</p>
+          <ul class="mt">
+            <li>Detect critical and minor technical errors</li>
+            <li>Compare audits to track progress over time</li>
+            <li>Schedule recurring crawls</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 id="auditSummary" class="muted">Audit results will appear here</h3>
+          <div style="overflow-x:auto" class="mt">
+            <table class="compare">
+              <thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead>
+              <tbody id="auditResults"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <h2>Related tools</h2>
+        <div class="grid-3 mt">
+          <a class="card" href="/tools/on-page-checker.html"><h3>On-Page Checker</h3><p>Fix page-level optimization.</p></a>
+          <a class="card" href="/tools/backlink-checker.html"><h3>Backlink Checker</h3><p>Audit off-page signals.</p></a>
+          <a class="card" href="/api.html"><h3>Website Audit API</h3><p>Trigger crawls programmatically.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container"><div class="cta-band"><h2>Audit your site for free</h2><p>Free 14-day trial, no credit card required.</p><a class="btn btn-teal btn-lg" href="/signup.html">Start free trial</a></div></div>
+    </section>
+  </main>
+
+  <!--#include footer-->
+</body>
+</html>

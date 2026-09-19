@@ -1,0 +1,27 @@
+# Legacy and alias URL redirects (301 permanent)
+/subscription.html            /pricing.html              301
+/subscription                 /pricing.html              301
+/sign-up.html                 /signup.html               301
+/sign-up                      /signup.html               301
+/login.html                   /signin.html               301
+/login                        /signin.html               301
+/about-us.html                /about.html                301
+/about-us                     /about.html                301
+/legal/privacy-statement.html /privacy.html              301
+/legal/terms-of-service.html  /terms.html                301
+/legal/cookie-policy.html     /cookies.html              301
+/privacy-statement.html       /privacy.html              301
+/terms-of-service.html        /terms.html                301
+/cookie-policy.html           /cookies.html              301
+/position-tracking.html       /tools/rank-tracker.html   301
+/keyword-suggestion-tool.html /tools/keyword-research.html 301
+/website-audit.html           /tools/website-audit.html  301
+/on-page-checker.html         /tools/on-page-checker.html 301
+/backlink-checker.html        /tools/backlink-checker.html 301
+/competitor-traffic-research.html /tools/competitor-analysis.html 301
+/ai-visibility-tracker.html   /tools/ai-visibility.html  301
+/api-pricing.html             /api.html                  301
+/features                     /features.html             301
+
+# Catch-all
+/*                            /404.html                  404

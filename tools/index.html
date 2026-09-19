@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All SEO and AI Search Tools | OptiRank</title>
+  <meta name="description" content="Browse every OptiRank tool: rank tracking, keyword research, website audit, on-page checker, backlink checker, competitor analysis, and AI visibility tracking.">
+  <link rel="canonical" href="https://www.optirank.io/tools/index.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="All SEO and AI Search Tools | OptiRank">
+  <meta property="og:description" content="Every OptiRank tool in one place, with an instant SEO audit preview.">
+  <meta property="og:url" content="https://www.optirank.io/tools/index.html">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site.js" defer></script>
+</head>
+<body data-page="tools">
+  <!--#include header-->
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/index.html">Home</a> / Tools</nav>
+        <h1 class="h1">All OptiRank tools</h1>
+        <p class="sub" style="margin-left:0">From rank tracking and audits to backlinks and AI visibility, everything your team needs in one platform.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="grid-4">
+          <a class="card" href="/tools/rank-tracker.html"><div class="icon">RK</div><h3>Rank Tracker</h3><p>Daily positions across engines, devices, and locations.</p></a>
+          <a class="card" href="/tools/keyword-research.html"><div class="icon">KW</div><h3>Keyword Research</h3><p>Volumes, difficulty, and long-tail suggestions.</p></a>
+          <a class="card" href="/tools/website-audit.html"><div class="icon">AU</div><h3>Website Audit</h3><p>Technical issues with prioritized fixes.</p></a>
+          <a class="card" href="/tools/on-page-checker.html"><div class="icon">OP</div><h3>On-Page Checker</h3><p>Page-level optimization scoring.</p></a>
+          <a class="card" href="/tools/backlink-checker.html"><div class="icon">BL</div><h3>Backlink Checker</h3><p>Referring domains, anchors, and link value.</p></a>
+          <a class="card" href="/tools/competitor-analysis.html"><div class="icon">CA</div><h3>Competitor Analysis</h3><p>Organic and paid traffic insights.</p></a>
+          <a class="card" href="/tools/ai-visibility.html"><div class="icon">AI</div><h3>AI Visibility</h3><p>Mentions and sentiment across AI engines.</p></a>
+          <a class="card" href="/api.html"><div class="icon">API</div><h3>API &amp; MCP</h3><p>Structured data for your stack and AI assistants.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="grid-2" style="gap:40px;align-items:start">
+          <div>
+            <h2>Instant SEO audit preview</h2>
+            <p class="sub" style="margin-left:0">Enter a domain to see how the audit checks canonical URLs, meta titles and descriptions, redirects, internal links, privacy and terms pages, robots.txt, and sitemap.xml.</p>
+            <form id="auditForm">
+              <label for="audit-url">Website URL</label>
+              <input id="audit-url" name="url" type="text" placeholder="example.com" required>
+              <button class="btn btn-teal btn-full mt" type="submit">Run instant audit</button>
+              <div class="alert" role="status"></div>
+            </form>
+            <p class="note">Demo dataset generated locally. No outbound requests are made to the submitted host.</p>
+          </div>
+          <div class="card">
+            <h3 id="auditSummary" class="muted">Audit results will appear here</h3>
+            <div style="overflow-x:auto" class="mt">
+              <table class="compare">
+                <thead><tr><th>Check</th><th>Status</th><th>Detail</th></tr></thead>
+                <tbody id="auditResults"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!--#include footer-->
+</body>
+</html>

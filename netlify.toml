@@ -1,0 +1,42 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/subscription.html"
+  to = "/pricing.html"
+  status = 301
+
+[[redirects]]
+  from = "/about-us.html"
+  to = "/about.html"
+  status = 301
+
+[[redirects]]
+  from = "/legal/privacy-statement.html"
+  to = "/privacy.html"
+  status = 301
+
+[[redirects]]
+  from = "/legal/terms-of-service.html"
+  to = "/terms.html"
+  status = 301
+
+[[redirects]]
+  from = "/legal/cookie-policy.html"
+  to = "/cookies.html"
+  status = 301
+
+[[redirects]]
+  from = "/sign-up.html"
+  to = "/signup.html"
+  status = 301
+
+[[redirects]]
+  from = "/login.html"
+  to = "/signin.html"
+  status = 301
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404

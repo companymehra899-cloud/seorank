@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+Disallow: /backend/
+Disallow: /scripts/
+Disallow: /_redirects
+Disallow: /seo-audit-report.md
+
+Sitemap: https://www.optirank.io/sitemap.xml
+Host: https://www.optirank.io

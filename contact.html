@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Sales and Support | OptiRank</title>
+  <meta name="description" content="Contact the OptiRank team for a demo, custom enterprise plan, migration help, or support. We reply within one business day.">
+  <link rel="canonical" href="https://www.optirank.io/contact.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact Sales and Support | OptiRank">
+  <meta property="og:description" content="Talk to sales, book a demo, or reach support. We reply within one business day.">
+  <meta property="og:url" content="https://www.optirank.io/contact.html">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site.js" defer></script>
+</head>
+<body data-page="contact">
+  <!--#include header-->
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/index.html">Home</a> / Contact</nav>
+        <h1 class="h1">Talk to the OptiRank team</h1>
+        <p class="sub" style="margin-left:0">Book a demo, ask about enterprise plans, or get help with migration and support.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <form class="form-wrap" style="margin:0;max-width:none" data-api="/api/contact" novalidate>
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" placeholder="Your full name" autocomplete="name" required>
+
+          <label for="email">Work email</label>
+          <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required>
+
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" placeholder="Company name" autocomplete="organization">
+
+          <label for="topic">How can we help?</label>
+          <select id="topic" name="topic">
+            <option>Book a product demo</option>
+            <option>Custom enterprise plan</option>
+            <option>Migration assistance</option>
+            <option>Technical support</option>
+            <option>Partnership or affiliate</option>
+          </select>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell us about your goals and team size" required></textarea>
+
+          <button class="btn btn-teal btn-full mt" type="submit">Send message</button>
+          <div class="alert" role="status"></div>
+        </form>
+
+        <div>
+          <div class="card">
+            <h3>Sales</h3>
+            <p class="muted">For demos, enterprise pricing, and custom limits.</p>
+            <p class="mt"><strong>Email:</strong> sales@optirank.io</p>
+          </div>
+          <div class="card mt">
+            <h3>Support</h3>
+            <p class="muted">Help center, chat, and email support for all customers.</p>
+            <p class="mt"><strong>Email:</strong> support@optirank.io</p>
+          </div>
+          <div class="card mt">
+            <h3>Offices</h3>
+            <p class="muted">London, England &middot; Wilmington, Delaware</p>
+            <a class="link" href="/about.html">See legal addresses &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt faq">
+      <div class="container" style="max-width:820px">
+        <h2 class="center">Common questions</h2>
+        <details open><summary>Do you offer free migration?</summary><p>Yes, free assisted migration is available with annual subscriptions. Monthly plans can use self-serve import options.</p></details>
+        <details><summary>Can I get a custom plan?</summary><p>Absolutely. Tell us your required limits and seats and we will scope a custom Enterprise plan.</p></details>
+        <details><summary>How fast do you respond?</summary><p>Sales and support respond within one business day on average.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <!--#include footer-->
+</body>
+</html>

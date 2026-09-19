@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEO API and MCP Access | OptiRank</title>
+  <meta name="description" content="Pull rankings, keywords, backlinks, and AI visibility data into your stack with the OptiRank API, or query it live inside AI assistants with MCP.">
+  <link rel="canonical" href="https://www.optirank.io/api.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SEO API and MCP Access | OptiRank">
+  <meta property="og:description" content="Programmatic access to SEO and GEO data, plus MCP for live data inside AI assistants.">
+  <meta property="og:url" content="https://www.optirank.io/api.html">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site.js" defer></script>
+</head>
+<body data-page="api">
+  <!--#include header-->
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/index.html">Home</a> / API &amp; MCP</nav>
+        <h1 class="h1">Power up your stack with OptiRank data</h1>
+        <p class="sub" style="margin-left:0">Access rankings, keywords, backlinks, and AI visibility insights via the OptiRank API, or query them live inside AI assistants with MCP.</p>
+        <div class="cta-row">
+          <a class="btn btn-teal btn-lg" href="/contact.html">Get API access</a>
+          <a class="btn btn-ghost btn-lg" href="/pricing.html#agency">View API pricing</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2" style="gap:40px">
+        <div>
+          <h2 id="rest">REST API</h2>
+          <p class="mt muted">Automate reporting, run bulk SEO analyses, and pull structured SEO data into your own products and dashboards.</p>
+          <div class="grid-2 mt">
+            <div class="card"><h3>Backlinks API</h3><p>Referring domains, anchors, and link value at scale.</p></div>
+            <div class="card"><h3>Domain Analysis API</h3><p>Traffic, visibility, and competitive metrics.</p></div>
+            <div class="card"><h3>Keyword Research API</h3><p>Volume, difficulty, and SERP features.</p></div>
+            <div class="card"><h3>Website Audit API</h3><p>Trigger crawls and fetch issues programmatically.</p></div>
+          </div>
+        </div>
+        <div class="preview" style="border-radius:20px">
+          <h4>Example request</h4>
+          <div class="card-mini mt">
+            <pre style="white-space:pre-wrap;font-size:13px;color:#cfe">curl -X GET "https://api.optirank.io/v1/rankings" \
+  -H "Authorization: Bearer $OPTIRANK_API_KEY" \
+  -G -d "keyword=ai seo software" \
+     -d "location=United States"</pre>
+          </div>
+          <h4 style="margin-top:18px">Example response</h4>
+          <div class="card-mini mt">
+            <pre style="white-space:pre-wrap;font-size:13px;color:#cfe">{ "keyword": "ai seo software",
+  "position": 2,
+  "change": 3,
+  "engine": "google" }</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="mcp">
+      <div class="container">
+        <h2>MCP for AI assistants</h2>
+        <p class="sub" style="margin-left:0">Connect via MCP and get structured OptiRank data inside your AI assistant by describing what you need in plain language.</p>
+        <div class="grid-3 mt">
+          <div class="card"><h3>SEO skills</h3><p>Ask for rankings, keyword clusters, and competitor summaries.</p></div>
+          <div class="card"><h3>Marketing skills</h3><p>Generate briefs and content plans grounded in live data.</p></div>
+          <div class="card"><h3>Content skills</h3><p>Draft and optimize content using real SERP intelligence.</p></div>
+        </div>
+        <div class="preview mt" style="border-radius:20px">
+          <h4>MCP setup</h4>
+          <div class="card-mini mt">
+            <pre style="white-space:pre-wrap;font-size:13px;color:#cfe">{
+  "mcpServers": {
+    "optirank": {
+      "command": "npx",
+      "args": ["-y", "@optirank/mcp"],
+      "env": { "OPTIRANK_API_KEY": "your-key" }
+    }
+  }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Backend endpoints used by this site</h2>
+        <p class="sub" style="margin-left:0">This demo ships with a small backend. The audit script verifies that every endpoint referenced by the frontend exists.</p>
+        <div style="overflow-x:auto">
+          <table class="compare">
+            <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>GET</td><td>/api/health</td><td>Service health check</td></tr>
+              <tr><td>GET</td><td>/api/plans</td><td>List subscription plans and limits</td></tr>
+              <tr><td>POST</td><td>/api/audit</td><td>Run an instant SEO audit for a URL</td></tr>
+              <tr><td>POST</td><td>/api/signup</td><td>Create a free trial account</td></tr>
+              <tr><td>POST</td><td>/api/signin</td><td>Authenticate an existing user</td></tr>
+              <tr><td>POST</td><td>/api/contact</td><td>Send a sales or support message</td></tr>
+              <tr><td>POST</td><td>/api/subscribe</td><td>Subscribe an email to the newsletter</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-band">
+          <h2>Automate data collection and reporting</h2>
+          <p>Connect OptiRank to Looker Studio, Make.com, n8n, and your own apps.</p>
+          <a class="btn btn-teal btn-lg" href="/contact.html">Talk to sales</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!--#include footer-->
+</body>
+</html>

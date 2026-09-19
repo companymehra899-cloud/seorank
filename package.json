@@ -1,0 +1,16 @@
+{
+  "name": "optirank",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OptiRank - AI SEO platform demo inspired by modern SEO tooling",
+  "main": "backend/server.js",
+  "scripts": {
+    "dev": "node backend/server.js",
+    "start": "node backend/server.js",
+    "audit": "node scripts/audit.js",
+    "test": "node scripts/audit.js"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
