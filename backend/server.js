@@ -138,21 +138,6 @@ async function handleApi(req, res, pathname) {
     return sendJson(res, 200, buildInstantAudit(String(body.url)));
   }
 
-  if (pathname === "/api/signup" && method === "POST") {
-    const raw = await readBody(req);
-    const body = parseBody(req, raw);
-    if (!body.email || !body.name) return sendJson(res, 400, { error: "Name and email are required" });
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(body.email)) return sendJson(res, 400, { error: "Enter a valid email address" });
-    return sendJson(res, 201, { status: "created", message: `Trial workspace ready for ${body.email}`, trialDays: 14 });
-  }
-
-  if (pathname === "/api/signin" && method === "POST") {
-    const raw = await readBody(req);
-    const body = parseBody(req, raw);
-    if (!body.email || !body.password) return sendJson(res, 400, { error: "Email and password are required" });
-    return sendJson(res, 200, { status: "authenticated", message: "Signed in", user: { email: body.email } });
-  }
-
   if (pathname === "/api/contact" && method === "POST") {
     const raw = await readBody(req);
     const body = parseBody(req, raw);

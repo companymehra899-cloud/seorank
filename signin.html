@@ -3,44 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In to Your Account | OptiRank</title>
-  <meta name="description" content="Sign in to OptiRank to access your SEO projects, rank tracking, audits, backlinks, and AI visibility dashboards.">
-  <link rel="canonical" href="https://www.optirank.io/signin.html">
+  <title>Sign in not required | OptiRank</title>
+  <meta name="description" content="OptiRank does not require sign in. Open SEO tools, run a website audit, and check AI visibility with no login or password.">
   <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://www.optirank.io/signin.html">
+  <meta http-equiv="refresh" content="0; url=/tools/index.html">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Sign In to Your Account | OptiRank">
-  <meta property="og:description" content="Sign in to access your OptiRank SEO platform.">
+  <meta property="og:title" content="Sign in not required | OptiRank">
+  <meta property="og:description" content="OptiRank does not require sign in. Open SEO tools with no login or password.">
   <meta property="og:url" content="https://www.optirank.io/signin.html">
   <link rel="stylesheet" href="/css/style.css">
   <script src="/js/site.js" defer></script>
 </head>
 <body data-page="signin">
   <!--#include header-->
-
   <main>
-    <section class="section" style="background:linear-gradient(#fff,var(--bg-soft))">
-      <div class="container">
-        <div class="center">
-          <h1 class="h1">Welcome back</h1>
-          <p class="sub">Sign in to continue to your dashboard.</p>
+    <section class="section">
+      <div class="container center">
+        <h1 class="h1">No login required</h1>
+        <p class="sub">There is no account wall. Open any tool and start working immediately.</p>
+        <div class="cta-row" style="justify-content:center">
+          <a class="btn btn-teal btn-lg" href="/tools/index.html">Browse all tools</a>
+          <a class="btn btn-ghost btn-lg" href="/index.html">Back to homepage</a>
         </div>
-        <form class="form-wrap" data-api="/api/signin" novalidate>
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required>
-
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" placeholder="Your password" autocomplete="current-password" required>
-
-          <label class="check"><input type="checkbox" name="remember"> Keep me signed in on this device</label>
-
-          <button class="btn btn-teal btn-full" type="submit">Sign in</button>
-          <div class="alert" role="status"></div>
-          <p class="note">New to OptiRank? <a class="link" href="/signup.html">Start a free trial</a> &middot; <a class="link" href="/contact.html">Forgot password</a></p>
-        </form>
       </div>
     </section>
   </main>
-
   <!--#include footer-->
 </body>
 </html>

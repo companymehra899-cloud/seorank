@@ -1,10 +1,14 @@
 # Legacy and alias URL redirects (301 permanent)
 /subscription.html            /pricing.html              301
 /subscription                 /pricing.html              301
-/sign-up.html                 /signup.html               301
-/sign-up                      /signup.html               301
-/login.html                   /signin.html               301
-/login                        /signin.html               301
+/sign-up.html                 /tools/index.html          301
+/sign-up                      /tools/index.html          301
+/signup.html                  /tools/index.html          301
+/signup                       /tools/index.html          301
+/login.html                   /tools/index.html          301
+/login                        /tools/index.html          301
+/signin.html                  /tools/index.html          301
+/signin                       /tools/index.html          301
 /about-us.html                /about.html                301
 /about-us                     /about.html                301
 /legal/privacy-statement.html /privacy.html              301

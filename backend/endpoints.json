@@ -2,8 +2,6 @@
   "base": "/api",
   "endpoints": [
     { "method": "GET", "path": "/api/health", "description": "Service health check" },
-    { "method": "POST", "path": "/api/signup", "description": "Create a free trial account" },
-    { "method": "POST", "path": "/api/signin", "description": "Authenticate an existing user" },
     { "method": "POST", "path": "/api/contact", "description": "Send a sales or support message" },
     { "method": "POST", "path": "/api/subscribe", "description": "Subscribe an email to the newsletter" },
     { "method": "POST", "path": "/api/audit", "description": "Run an instant SEO audit for a URL" },

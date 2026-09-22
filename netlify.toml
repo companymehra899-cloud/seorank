@@ -28,12 +28,22 @@
 
 [[redirects]]
   from = "/sign-up.html"
-  to = "/signup.html"
+  to = "/tools/index.html"
+  status = 301
+
+[[redirects]]
+  from = "/signup.html"
+  to = "/tools/index.html"
   status = 301
 
 [[redirects]]
   from = "/login.html"
-  to = "/signin.html"
+  to = "/tools/index.html"
+  status = 301
+
+[[redirects]]
+  from = "/signin.html"
+  to = "/tools/index.html"
   status = 301
 
 [[redirects]]
