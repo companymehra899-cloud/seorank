@@ -1,7 +1,7 @@
 # SEO and Backend Audit Report
 
 Base URL: https://www.optirank.io
-Generated: 2026-09-22T12:19:01.355Z
+Generated: 2026-09-22T12:54:07.135Z
 
 ## Summary
 

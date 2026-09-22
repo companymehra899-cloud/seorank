@@ -235,5 +235,6 @@
     initAuditForm();
     initNewsletter();
     initCookieBanner();
+    if (window.OptiRankI18n) window.OptiRankI18n.init();
   });
 })();
