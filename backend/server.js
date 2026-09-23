@@ -193,27 +193,43 @@ function serveStatic(req, res, pathname) {
 }
 
 const server = http.createServer(async (req, res) => {
-  const parsed = new URL(req.url, `http://${req.headers.host || "localhost"}`);
-  const pathname = decodeURIComponent(parsed.pathname);
-
-  if (pathname.startsWith("/api/")) {
+  try {
+    const parsed = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+    let pathname = parsed.pathname;
     try {
-      await handleApi(req, res, pathname);
-    } catch (error) {
-      sendJson(res, 500, { error: "Internal server error", detail: String(error && error.message) });
+      pathname = decodeURIComponent(pathname);
+    } catch {
+      pathname = parsed.pathname;
     }
-    return;
-  }
 
-  if (req.method === "GET") {
-    const rule = findRedirect(pathname);
-    if (rule) {
-      res.writeHead(rule.code, { Location: rule.to });
-      return res.end();
+    if (pathname.startsWith("/api/")) {
+      try {
+        await handleApi(req, res, pathname);
+      } catch (error) {
+        sendJson(res, 500, { error: "Internal server error", detail: String(error && error.message) });
+      }
+      return;
     }
-  }
 
-  serveStatic(req, res, pathname);
+    if (req.method === "GET") {
+      const rule = findRedirect(pathname);
+      if (rule) {
+        res.writeHead(rule.code, { Location: rule.to });
+        return res.end();
+      }
+    }
+
+    serveStatic(req, res, pathname);
+  } catch (error) {
+    if (!res.headersSent) {
+      res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
+    }
+    res.end("Internal server error");
+  }
+});
+
+server.on("clientError", (err, socket) => {
+  if (socket.writable) socket.end("HTTP/1.1 400 Bad Request\r\n\r\n");
 });
 
 server.listen(PORT, () => {
