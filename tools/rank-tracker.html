@@ -32,6 +32,28 @@
     </section>
 
     <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <div>
+          <h2>Track a keyword now</h2>
+          <p class="sub" style="margin-left:0">Enter a domain and a keyword to preview daily positions across engines, devices, and locations.</p>
+          <form data-tool-form data-tool="rank-tracker">
+            <label for="rt-url">Website or domain</label>
+            <input id="rt-url" name="url" type="text" placeholder="example.com" required>
+            <label for="rt-keyword">Keyword</label>
+            <input id="rt-keyword" name="keyword" type="text" placeholder="seo tools" required>
+            <button class="btn btn-teal btn-full mt" type="submit">Track rankings</button>
+            <div class="alert" role="status"></div>
+          </form>
+          <p class="note">Demo dataset generated locally. No outbound requests are made to search engines.</p>
+        </div>
+        <div class="card">
+          <h3 id="toolSummary" class="muted">Results will appear here</h3>
+          <div id="toolResults" class="mt"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container grid-2" style="gap:40px;align-items:center">
         <div>
           <h2>Track positions with precision</h2>

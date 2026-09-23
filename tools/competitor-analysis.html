@@ -29,6 +29,28 @@
     </section>
 
     <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <div>
+          <h2>Compare two domains</h2>
+          <p class="sub" style="margin-left:0">Enter your domain and a competitor to preview organic and paid search metrics side by side.</p>
+          <form data-tool-form data-tool="competitor-analysis">
+            <label for="ca-url">Your domain</label>
+            <input id="ca-url" name="url" type="text" placeholder="example.com" required>
+            <label for="ca-competitor">Competitor domain</label>
+            <input id="ca-competitor" name="competitor" type="text" placeholder="rival.com" required>
+            <button class="btn btn-teal btn-full mt" type="submit">Compare domains</button>
+            <div class="alert" role="status"></div>
+          </form>
+          <p class="note">Demo dataset generated locally. No outbound requests are made to the submitted domains.</p>
+        </div>
+        <div class="card">
+          <h3 id="toolSummary" class="muted">Results will appear here</h3>
+          <div id="toolResults" class="mt"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container grid-2" style="gap:40px;align-items:center">
         <div>
           <h2>Find your competitive edge</h2>

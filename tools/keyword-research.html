@@ -32,6 +32,26 @@
     </section>
 
     <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <div>
+          <h2>Research a keyword now</h2>
+          <p class="sub" style="margin-left:0">Enter a seed keyword to preview search volumes, difficulty, CPC, and long-tail suggestions.</p>
+          <form data-tool-form data-tool="keyword-research">
+            <label for="kr-keyword">Seed keyword</label>
+            <input id="kr-keyword" name="keyword" type="text" placeholder="seo software" required>
+            <button class="btn btn-teal btn-full mt" type="submit">Get keyword ideas</button>
+            <div class="alert" role="status"></div>
+          </form>
+          <p class="note">Demo dataset generated locally. No outbound requests are made to keyword APIs.</p>
+        </div>
+        <div class="card">
+          <h3 id="toolSummary" class="muted">Results will appear here</h3>
+          <div id="toolResults" class="mt"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container grid-2" style="gap:40px;align-items:center">
         <div>
           <h2>Find the keywords that matter</h2>

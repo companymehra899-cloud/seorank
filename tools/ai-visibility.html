@@ -29,6 +29,26 @@
     </section>
 
     <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <div>
+          <h2>Check your AI visibility</h2>
+          <p class="sub" style="margin-left:0">Enter your brand name to preview mentions, sentiment, and share of voice across AI engines.</p>
+          <form data-tool-form data-tool="ai-visibility">
+            <label for="ai-brand">Brand name</label>
+            <input id="ai-brand" name="brand" type="text" placeholder="OptiRank" required>
+            <button class="btn btn-teal btn-full mt" type="submit">Check AI visibility</button>
+            <div class="alert" role="status"></div>
+          </form>
+          <p class="note">Demo dataset generated locally. No outbound requests are made to AI platforms.</p>
+        </div>
+        <div class="card">
+          <h3 id="toolSummary" class="muted">Results will appear here</h3>
+          <div id="toolResults" class="mt"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container">
         <h2>Measure your brand across AI search engines</h2>
         <div class="grid-2 mt" style="gap:40px;align-items:center">

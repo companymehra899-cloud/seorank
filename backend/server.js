@@ -120,6 +120,180 @@ function buildInstantAudit(target) {
   };
 }
 
+function hashString(value) {
+  const str = String(value || "");
+  let hash = 0;
+  for (let i = 0; i < str.length; i += 1) {
+    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+}
+
+function seeded(seed, min, max) {
+  const span = max - min + 1;
+  const value = Math.abs(Math.trunc(Number(seed) || 0)) % span;
+  return min + value;
+}
+
+function cleanHost(value) {
+  const text = String(value || "").trim();
+  try {
+    return new URL(text.startsWith("http") ? text : `https://${text}`).hostname || "example.com";
+  } catch {
+    return text.replace(/[^a-z0-9.-]/gi, "") || "example.com";
+  }
+}
+
+function formatNumber(value) {
+  return String(value).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+const TOOL_REQUIRED = {
+  "rank-tracker": ["url", "keyword"],
+  "keyword-research": ["keyword"],
+  "on-page-checker": ["url"],
+  "backlink-checker": ["url"],
+  "competitor-analysis": ["url", "competitor"],
+  "ai-visibility": ["brand"]
+};
+
+const TOOL_NOTE = "Demo dataset generated locally. No outbound requests are made to the submitted host.";
+
+function buildRankTracker(body) {
+  const host = cleanHost(body.url);
+  const keyword = String(body.keyword).trim();
+  const engines = ["Google", "Google", "Google", "Bing", "Google", "Bing"];
+  const devices = ["Desktop", "Mobile", "Mobile", "Desktop", "Desktop", "Mobile"];
+  const locations = ["United States", "United Kingdom", "Germany", "India", "Canada", "Australia"];
+  const rows = engines.map((engine, index) => {
+    const seed = hashString(`${keyword}:${index}`);
+    const position = seeded(seed, 1, 42);
+    const change = seeded(seed >>> 3, -4, 6);
+    return [keyword, engine, devices[index], locations[index], `#${position}`, change > 0 ? `+${change}` : String(change)];
+  });
+  return {
+    tool: "rank-tracker",
+    title: "Rank tracking preview",
+    summary: `Tracked ${rows.length} positions for "${keyword}" on ${host}.`,
+    columns: ["Keyword", "Engine", "Device", "Location", "Position", "Change"],
+    rows,
+    note: TOOL_NOTE
+  };
+}
+
+function buildKeywordResearch(body) {
+  const keyword = String(body.keyword).trim();
+  const variants = [keyword, `best ${keyword}`, `${keyword} tools`, `free ${keyword}`, `${keyword} for beginners`, `${keyword} alternatives`, `${keyword} pricing`, `how to ${keyword}`];
+  const intents = ["Commercial", "Commercial", "Commercial", "Informational", "Informational", "Commercial", "Transactional", "Informational"];
+  const rows = variants.map((variant, index) => {
+    const seed = hashString(variant);
+    const cpc = (seeded(seed >>> 8, 1, 45) / 10).toFixed(2);
+    return [variant, formatNumber(seeded(seed, 320, 24000)), seeded(seed >>> 4, 12, 78), `$${cpc}`, intents[index]];
+  });
+  return {
+    tool: "keyword-research",
+    title: "Keyword ideas",
+    summary: `${rows.length} keyword ideas for "${keyword}".`,
+    columns: ["Keyword", "Volume", "Difficulty", "CPC", "Intent"],
+    rows,
+    note: TOOL_NOTE
+  };
+}
+
+function buildOnPageChecker(body) {
+  const url = String(body.url).trim();
+  const host = cleanHost(url);
+  const seed = hashString(url);
+  const score = seeded(seed, 62, 96);
+  const rows = [
+    ["Title tag", score > 80 ? "Good" : "Improve", "Keep titles between 45 and 60 characters."],
+    ["Meta description", seeded(seed, 0, 1) ? "Good" : "Too long", "Trim descriptions below 160 characters."],
+    ["H1 heading", "Good", "Exactly one H1 found on the page."],
+    ["Word count", `${formatNumber(seeded(seed >>> 2, 420, 1900))} words`, "Aim for 800+ words on competitive pages."],
+    ["Image alt text", seeded(seed >>> 3, 0, 3) === 0 ? "Missing" : "Good", "Add descriptive alt text to every image."],
+    ["Internal links", `${seeded(seed >>> 5, 6, 42)} links`, "Add 2-3 internal links to related pages."],
+    ["Page load", `${(seeded(seed >>> 6, 12, 38) / 10).toFixed(1)}s`, "Target under 2.5s on mobile."]
+  ];
+  return {
+    tool: "on-page-checker",
+    title: "On-page score",
+    summary: `On-page score ${score}/100 for ${host}.`,
+    columns: ["Element", "Status", "Recommendation"],
+    rows,
+    note: TOOL_NOTE
+  };
+}
+
+function buildBacklinkChecker(body) {
+  const host = cleanHost(body.url);
+  const seed = hashString(host);
+  const domains = seeded(seed, 180, 4200);
+  const backlinks = domains * seeded(seed >>> 4, 8, 22);
+  const sources = ["techcrunch.com", "searchengineland.com", "moz.com", "hubspot.com", "backlinko.com", "neilpatel.com"];
+  const anchors = ["natural anchor", "brand name", "exact match", "URL anchor", "naked link", "generic phrase"];
+  const types = ["Dofollow", "Dofollow", "Nofollow", "Dofollow", "Nofollow", "Dofollow"];
+  const rows = sources.map((source, index) => {
+    const s = hashString(`${host}:${source}`);
+    return [source, anchors[index], seeded(s, 45, 94), types[index], `$${formatNumber(seeded(s >>> 3, 40, 980))}`];
+  });
+  return {
+    tool: "backlink-checker",
+    title: "Backlink profile",
+    summary: `${formatNumber(backlinks)} backlinks from ${formatNumber(domains)} referring domains for ${host}.`,
+    columns: ["Referring domain", "Anchor text", "Authority", "Type", "Value"],
+    rows,
+    note: TOOL_NOTE
+  };
+}
+
+function buildCompetitorAnalysis(body) {
+  const host = cleanHost(body.url);
+  const rival = cleanHost(body.competitor);
+  const seed = hashString(`${host}:${rival}`);
+  const metrics = ["Organic keywords", "Organic traffic", "Backlinks", "Referring domains", "Paid keywords", "Domain authority"];
+  const rows = metrics.map((metric) => {
+    const s = hashString(`${metric}:${seed}`);
+    return [metric, formatNumber(seeded(s, 1200, 92000)), formatNumber(seeded(s >>> 3, 1200, 92000))];
+  });
+  return {
+    tool: "competitor-analysis",
+    title: "Competitor overview",
+    summary: `Side-by-side organic and paid metrics for ${host} and ${rival}.`,
+    columns: ["Metric", host, rival],
+    rows,
+    note: TOOL_NOTE
+  };
+}
+
+function buildAiVisibility(body) {
+  const brand = String(body.brand).trim();
+  const engines = ["Google AI Overviews", "ChatGPT", "Gemini", "Perplexity", "Microsoft Copilot"];
+  const sentiments = ["Positive", "Positive", "Neutral", "Positive", "Neutral"];
+  const rows = engines.map((engine, index) => {
+    const seed = hashString(`${brand}:${engine}`);
+    const mentions = seeded(seed, 12, 480);
+    const share = (seeded(seed >>> 3, 40, 380) / 10).toFixed(1);
+    return [engine, formatNumber(mentions), sentiments[index], `${share}%`];
+  });
+  return {
+    tool: "ai-visibility",
+    title: "AI share of voice",
+    summary: `Brand mentions and sentiment for "${brand}" across ${rows.length} AI engines.`,
+    columns: ["AI engine", "Mentions", "Sentiment", "Share of voice"],
+    rows,
+    note: TOOL_NOTE
+  };
+}
+
+const TOOL_BUILDERS = {
+  "rank-tracker": buildRankTracker,
+  "keyword-research": buildKeywordResearch,
+  "on-page-checker": buildOnPageChecker,
+  "backlink-checker": buildBacklinkChecker,
+  "competitor-analysis": buildCompetitorAnalysis,
+  "ai-visibility": buildAiVisibility
+};
+
 async function handleApi(req, res, pathname) {
   const method = req.method.toUpperCase();
 
@@ -150,6 +324,19 @@ async function handleApi(req, res, pathname) {
     const body = parseBody(req, raw);
     if (!body.email) return sendJson(res, 400, { error: "Email is required" });
     return sendJson(res, 201, { status: "subscribed", message: `${body.email} is subscribed.` });
+  }
+
+  if (pathname === "/api/tool" && method === "POST") {
+    const raw = await readBody(req);
+    const body = parseBody(req, raw);
+    const tool = String(body.tool || "");
+    const required = TOOL_REQUIRED[tool];
+    const builder = TOOL_BUILDERS[tool];
+    if (!required || !builder) return sendJson(res, 400, { error: "Unknown tool" });
+    for (const field of required) {
+      if (!String(body[field] || "").trim()) return sendJson(res, 400, { error: `A ${field} field is required` });
+    }
+    return sendJson(res, 200, builder(body));
   }
 
   sendJson(res, 404, { error: "Unknown API endpoint", path: pathname });

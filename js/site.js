@@ -184,6 +184,81 @@
     });
   }
 
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function renderToolResult(data) {
+    var summary = document.getElementById("toolSummary");
+    var results = document.getElementById("toolResults");
+    if (summary) {
+      summary.textContent = data.summary || "Results ready.";
+      summary.style.display = "block";
+    }
+    if (!results) return;
+    var head = data.columns.map(function (column) {
+      return "<th>" + escapeHtml(column) + "</th>";
+    }).join("");
+    var body = data.rows.map(function (row) {
+      return "<tr>" + row.map(function (cell) {
+        return "<td>" + escapeHtml(cell) + "</td>";
+      }).join("") + "</tr>";
+    }).join("");
+    results.innerHTML = '<div style="overflow-x:auto"><table class="compare"><thead><tr>' + head + "</tr></thead><tbody>" + body + "</tbody></table></div>";
+    if (data.note) {
+      var note = document.createElement("p");
+      note.className = "note";
+      note.textContent = data.note;
+      results.appendChild(note);
+    }
+  }
+
+  function initToolForms() {
+    document.querySelectorAll("form[data-tool-form]").forEach(function (form) {
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var payload = { tool: form.getAttribute("data-tool") };
+        new FormData(form).forEach(function (value, key) { payload[key] = value; });
+        var submit = form.querySelector("button[type=submit]");
+        var summary = document.getElementById("toolSummary");
+        var results = document.getElementById("toolResults");
+        if (submit) submit.disabled = true;
+        if (summary) {
+          summary.textContent = "Running preview...";
+          summary.style.display = "block";
+        }
+        if (form.querySelector(".alert")) form.querySelector(".alert").style.display = "none";
+
+        fetch("/api/tool", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        })
+          .then(function (response) {
+            return response.json().then(function (data) { return { ok: response.ok, data: data }; });
+          })
+          .then(function (result) {
+            if (!result.ok) throw new Error(result.data.error || "Request failed");
+            renderToolResult(result.data);
+          })
+          .catch(function (error) {
+            if (results) results.innerHTML = "";
+            if (summary) {
+              summary.textContent = "Results will appear here";
+              summary.className = "muted";
+            }
+            alertBox(form, error.message || "Tool run failed. Please try again.", true);
+          })
+          .finally(function () { if (submit) submit.disabled = false; });
+      });
+    });
+  }
+
   function initNewsletter() {
     document.querySelectorAll("form[data-newsletter]").forEach(function (form) {
       form.addEventListener("submit", function (event) {
@@ -233,6 +308,7 @@
     initSlider();
     initForms();
     initAuditForm();
+    initToolForms();
     initNewsletter();
     initCookieBanner();
     if (window.OptiRankI18n) window.OptiRankI18n.init();

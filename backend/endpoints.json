@@ -5,6 +5,7 @@
     { "method": "POST", "path": "/api/contact", "description": "Send a sales or support message" },
     { "method": "POST", "path": "/api/subscribe", "description": "Subscribe an email to the newsletter" },
     { "method": "POST", "path": "/api/audit", "description": "Run an instant SEO audit for a URL" },
+    { "method": "POST", "path": "/api/tool", "description": "Run a demo SEO tool query (rank tracking, keyword research, on-page, backlinks, competitors, AI visibility)" },
     { "method": "GET", "path": "/api/plans", "description": "List subscription plans and limits" }
   ]
 }

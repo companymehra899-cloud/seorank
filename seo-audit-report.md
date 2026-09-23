@@ -1,14 +1,14 @@
 # SEO and Backend Audit Report
 
 Base URL: https://www.optirank.io
-Generated: 2026-09-23T07:43:43.755Z
+Generated: 2026-09-23T07:55:25.984Z
 
 ## Summary
 
 - Pages checked: 21
 - Redirect rules: 28
 - Sitemap URLs: 18
-- Backend endpoints: 5
+- Backend endpoints: 6
 - Errors: 0
 - Warnings: 0
 
@@ -29,4 +29,4 @@ Generated: 2026-09-23T07:43:43.755Z
 - Pages discovered: 21
 - Redirect rules validated: 28
 - Sitemap URLs validated: 18
-- Backend endpoints declared: 5, referenced by frontend: 3
+- Backend endpoints declared: 6, referenced by frontend: 4

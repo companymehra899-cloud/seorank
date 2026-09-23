@@ -29,6 +29,26 @@
     </section>
 
     <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <div>
+          <h2>Analyze a backlink profile</h2>
+          <p class="sub" style="margin-left:0">Enter a domain to preview referring domains, anchor text, authority, and link value.</p>
+          <form data-tool-form data-tool="backlink-checker">
+            <label for="bl-url">Website or domain</label>
+            <input id="bl-url" name="url" type="text" placeholder="example.com" required>
+            <button class="btn btn-teal btn-full mt" type="submit">Analyze backlinks</button>
+            <div class="alert" role="status"></div>
+          </form>
+          <p class="note">Demo dataset generated locally. No outbound requests are made to link indexes.</p>
+        </div>
+        <div class="card">
+          <h3 id="toolSummary" class="muted">Results will appear here</h3>
+          <div id="toolResults" class="mt"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="container grid-2" style="gap:40px;align-items:center">
         <div>
           <h2>Understand your authority</h2>
