@@ -4,8 +4,8 @@
     { "method": "GET", "path": "/api/health", "description": "Service health check" },
     { "method": "POST", "path": "/api/contact", "description": "Send a sales or support message" },
     { "method": "POST", "path": "/api/subscribe", "description": "Subscribe an email to the newsletter" },
-    { "method": "POST", "path": "/api/audit", "description": "Run an instant SEO audit for a URL" },
-    { "method": "POST", "path": "/api/tool", "description": "Run a demo SEO tool query (rank tracking, keyword research, on-page, backlinks, competitors, AI visibility)" },
+    { "method": "POST", "path": "/api/audit", "description": "Fetch a URL live and run an SEO audit" },
+    { "method": "POST", "path": "/api/tool", "description": "Run an SEO tool query (on-page checker is live; rank tracking, keyword research, backlinks, competitors and AI visibility use demo data)" },
     { "method": "GET", "path": "/api/plans", "description": "List subscription plans and limits" }
   ]
 }

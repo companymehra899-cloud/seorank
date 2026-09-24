@@ -5,6 +5,7 @@ const path = require("path");
 const ROOT = path.resolve(__dirname, "..");
 const PORT = Number(process.env.PORT || 8000);
 const ENDPOINTS = require("./endpoints.json");
+const LIVE = require("./live");
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -95,31 +96,6 @@ const PLANS = [
   { id: "enterprise", name: "Enterprise", priceMonthly: null, priceAnnual: null, projects: "Custom", keywords: "Custom", prompts: "Custom" }
 ];
 
-function buildInstantAudit(target) {
-  let host = target;
-  try { host = new URL(target.startsWith("http") ? target : `https://${target}`).hostname; } catch { host = String(target); }
-  return {
-    url: target,
-    host,
-    generatedAt: new Date().toISOString(),
-    mode: "instant-preview",
-    note: "Demo dataset generated locally. No outbound requests are made to the submitted host.",
-    score: 82,
-    checks: [
-      { id: "canonical", label: "Canonical URL", status: "pass", detail: `Canonical tag present and self-referencing on ${host}` },
-      { id: "title", label: "Meta title", status: "pass", detail: "Unique title found, 54 characters" },
-      { id: "description", label: "Meta description", status: "warn", detail: "Description found but 168 characters, trim below 160" },
-      { id: "redirects", label: "Redirects", status: "pass", detail: "No redirect chains detected" },
-      { id: "internal-links", label: "Internal links", status: "pass", detail: "142 internal links, 0 broken" },
-      { id: "privacy", label: "Privacy policy page", status: "warn", detail: "Privacy page found, not linked in the footer" },
-      { id: "terms", label: "Terms and conditions page", status: "warn", detail: "Terms page found, not linked in the footer" },
-      { id: "robots", label: "robots.txt", status: "pass", detail: "robots.txt reachable and declares a sitemap" },
-      { id: "sitemap", label: "XML sitemap", status: "pass", detail: "sitemap.xml reachable and valid" },
-      { id: "h1", label: "H1 heading", status: "pass", detail: "Exactly one H1 found" }
-    ]
-  };
-}
-
 function hashString(value) {
   const str = String(value || "");
   let hash = 0;
@@ -201,27 +177,7 @@ function buildKeywordResearch(body) {
 }
 
 function buildOnPageChecker(body) {
-  const url = String(body.url).trim();
-  const host = cleanHost(url);
-  const seed = hashString(url);
-  const score = seeded(seed, 62, 96);
-  const rows = [
-    ["Title tag", score > 80 ? "Good" : "Improve", "Keep titles between 45 and 60 characters."],
-    ["Meta description", seeded(seed, 0, 1) ? "Good" : "Too long", "Trim descriptions below 160 characters."],
-    ["H1 heading", "Good", "Exactly one H1 found on the page."],
-    ["Word count", `${formatNumber(seeded(seed >>> 2, 420, 1900))} words`, "Aim for 800+ words on competitive pages."],
-    ["Image alt text", seeded(seed >>> 3, 0, 3) === 0 ? "Missing" : "Good", "Add descriptive alt text to every image."],
-    ["Internal links", `${seeded(seed >>> 5, 6, 42)} links`, "Add 2-3 internal links to related pages."],
-    ["Page load", `${(seeded(seed >>> 6, 12, 38) / 10).toFixed(1)}s`, "Target under 2.5s on mobile."]
-  ];
-  return {
-    tool: "on-page-checker",
-    title: "On-page score",
-    summary: `On-page score ${score}/100 for ${host}.`,
-    columns: ["Element", "Status", "Recommendation"],
-    rows,
-    note: TOOL_NOTE
-  };
+  return LIVE.analyzePage(String(body.url).trim());
 }
 
 function buildBacklinkChecker(body) {
@@ -308,8 +264,12 @@ async function handleApi(req, res, pathname) {
   if (pathname === "/api/audit" && method === "POST") {
     const raw = await readBody(req);
     const body = parseBody(req, raw);
-    if (!body.url) return sendJson(res, 400, { error: "A url field is required" });
-    return sendJson(res, 200, buildInstantAudit(String(body.url)));
+    if (!String(body.url || "").trim()) return sendJson(res, 400, { error: "A url field is required" });
+    try {
+      return sendJson(res, 200, await LIVE.analyzeSite(String(body.url).trim()));
+    } catch (error) {
+      return sendJson(res, 502, { error: error.message || "Could not reach the submitted URL" });
+    }
   }
 
   if (pathname === "/api/contact" && method === "POST") {
@@ -336,7 +296,11 @@ async function handleApi(req, res, pathname) {
     for (const field of required) {
       if (!String(body[field] || "").trim()) return sendJson(res, 400, { error: `A ${field} field is required` });
     }
-    return sendJson(res, 200, builder(body));
+    try {
+      return sendJson(res, 200, await builder(body));
+    } catch (error) {
+      return sendJson(res, 502, { error: error.message || "Could not run this tool" });
+    }
   }
 
   sendJson(res, 404, { error: "Unknown API endpoint", path: pathname });
