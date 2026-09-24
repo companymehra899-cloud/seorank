@@ -34,6 +34,8 @@
           <h2>Compare two domains</h2>
           <p class="sub" style="margin-left:0">Enter your domain and a competitor to preview organic and paid search metrics side by side.</p>
           <form data-tool-form data-tool="competitor-analysis">
+            <label for="ca-keyword">Keyword</label>
+            <input id="ca-keyword" name="keyword" type="text" placeholder="seo tools" required>
             <label for="ca-url">Your domain</label>
             <input id="ca-url" name="url" type="text" placeholder="example.com" required>
             <label for="ca-competitor">Competitor domain</label>
@@ -41,7 +43,7 @@
             <button class="btn btn-teal btn-full mt" type="submit">Compare domains</button>
             <div class="alert" role="status"></div>
           </form>
-          <p class="note">Demo dataset generated locally. No outbound requests are made to the submitted domains.</p>
+          <p class="note">Live Google positions for the keyword are compared for both domains. Falls back to demo data if the search API is unavailable.</p>
         </div>
         <div class="card">
           <h3 id="toolSummary" class="muted">Results will appear here</h3>

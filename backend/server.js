@@ -6,6 +6,8 @@ const ROOT = path.resolve(__dirname, "..");
 const PORT = Number(process.env.PORT || 8000);
 const ENDPOINTS = require("./endpoints.json");
 const LIVE = require("./live");
+const SERPER = require("./serper");
+require("./env")();
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -129,13 +131,13 @@ const TOOL_REQUIRED = {
   "keyword-research": ["keyword"],
   "on-page-checker": ["url"],
   "backlink-checker": ["url"],
-  "competitor-analysis": ["url", "competitor"],
+  "competitor-analysis": ["url", "competitor", "keyword"],
   "ai-visibility": ["brand"]
 };
 
 const TOOL_NOTE = "Demo dataset generated locally. No outbound requests are made to the submitted host.";
 
-function buildRankTracker(body) {
+function demoRankTracker(body) {
   const host = cleanHost(body.url);
   const keyword = String(body.keyword).trim();
   const engines = ["Google", "Google", "Google", "Bing", "Google", "Bing"];
@@ -157,7 +159,43 @@ function buildRankTracker(body) {
   };
 }
 
-function buildKeywordResearch(body) {
+async function liveRankTracker(body) {
+  const keyword = String(body.keyword).trim();
+  const domain = String(body.url).trim();
+  const data = await SERPER.search(keyword, { num: 100 });
+  const target = data.organic.find((entry) => SERPER.matchesDomain(entry.link, domain));
+  const rows = data.organic.slice(0, 10).map((entry) => {
+    const isTarget = SERPER.matchesDomain(entry.link, domain);
+    return [String(entry.position || "-"), (SERPER.hostOf(entry.link) || entry.link) + (isTarget ? " (your site)" : ""), entry.title || ""];
+  });
+  if (target && Number(target.position) > 10) {
+    rows.unshift([String(target.position), SERPER.hostOf(target.link) + " (your site)", target.title || ""]);
+  }
+  const summary = target
+    ? `"${keyword}": ${cleanHost(domain)} ranks #${target.position} on Google (live).`
+    : `"${keyword}": ${cleanHost(domain)} not found in the top ${data.organic.length} Google results (live).`;
+  return {
+    tool: "rank-tracker",
+    title: "Live Google positions",
+    summary,
+    columns: ["Position", "Domain", "Title"],
+    rows,
+    note: "Live Google SERP data via Serper."
+  };
+}
+
+async function buildRankTracker(body) {
+  if (!SERPER.enabled()) return demoRankTracker(body);
+  try {
+    return await liveRankTracker(body);
+  } catch (error) {
+    const fallback = demoRankTracker(body);
+    fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
+    return fallback;
+  }
+}
+
+function demoKeywordResearch(body) {
   const keyword = String(body.keyword).trim();
   const variants = [keyword, `best ${keyword}`, `${keyword} tools`, `free ${keyword}`, `${keyword} for beginners`, `${keyword} alternatives`, `${keyword} pricing`, `how to ${keyword}`];
   const intents = ["Commercial", "Commercial", "Commercial", "Informational", "Informational", "Commercial", "Transactional", "Informational"];
@@ -174,6 +212,34 @@ function buildKeywordResearch(body) {
     rows,
     note: TOOL_NOTE
   };
+}
+
+async function liveKeywordResearch(body) {
+  const keyword = String(body.keyword).trim();
+  const data = await SERPER.search(keyword, { num: 10 });
+  const rows = [];
+  data.relatedSearches.forEach((item) => rows.push([item.query || String(item), "Related search"]));
+  data.peopleAlsoAsk.forEach((item) => rows.push([item.question || String(item), "People also ask"]));
+  if (!rows.length) throw new Error("No related keywords returned");
+  return {
+    tool: "keyword-research",
+    title: "Live keyword ideas",
+    summary: `${rows.length} real keyword ideas for "${keyword}" from Google (live).`,
+    columns: ["Keyword", "Type"],
+    rows,
+    note: "Live Google related searches and People Also Ask via Serper."
+  };
+}
+
+async function buildKeywordResearch(body) {
+  if (!SERPER.enabled()) return demoKeywordResearch(body);
+  try {
+    return await liveKeywordResearch(body);
+  } catch (error) {
+    const fallback = demoKeywordResearch(body);
+    fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
+    return fallback;
+  }
 }
 
 function buildOnPageChecker(body) {
@@ -202,7 +268,7 @@ function buildBacklinkChecker(body) {
   };
 }
 
-function buildCompetitorAnalysis(body) {
+function demoCompetitorAnalysis(body) {
   const host = cleanHost(body.url);
   const rival = cleanHost(body.competitor);
   const seed = hashString(`${host}:${rival}`);
@@ -219,6 +285,40 @@ function buildCompetitorAnalysis(body) {
     rows,
     note: TOOL_NOTE
   };
+}
+
+async function liveCompetitorAnalysis(body) {
+  const keyword = String(body.keyword).trim();
+  const domain = String(body.url).trim();
+  const rival = String(body.competitor).trim();
+  const data = await SERPER.search(keyword, { num: 100 });
+  const mine = data.organic.find((entry) => SERPER.matchesDomain(entry.link, domain));
+  const theirs = data.organic.find((entry) => SERPER.matchesDomain(entry.link, rival));
+  const rows = data.organic.slice(0, 10).map((entry) => {
+    const host = SERPER.hostOf(entry.link) || entry.link;
+    const flag = SERPER.matchesDomain(entry.link, domain) ? " (you)" : SERPER.matchesDomain(entry.link, rival) ? " (rival)" : "";
+    return [String(entry.position || "-"), host + flag, entry.title || ""];
+  });
+  const summary = `"${keyword}": ${cleanHost(domain)} ${mine ? "#" + mine.position : "not in top 100"}, ${cleanHost(rival)} ${theirs ? "#" + theirs.position : "not in top 100"} (live).`;
+  return {
+    tool: "competitor-analysis",
+    title: "Live competitor positions",
+    summary,
+    columns: ["Position", "Domain", "Title"],
+    rows,
+    note: "Live Google SERP comparison via Serper."
+  };
+}
+
+async function buildCompetitorAnalysis(body) {
+  if (!SERPER.enabled()) return demoCompetitorAnalysis(body);
+  try {
+    return await liveCompetitorAnalysis(body);
+  } catch (error) {
+    const fallback = demoCompetitorAnalysis(body);
+    fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
+    return fallback;
+  }
 }
 
 function buildAiVisibility(body) {

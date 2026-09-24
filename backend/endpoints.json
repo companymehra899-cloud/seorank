@@ -5,7 +5,7 @@
     { "method": "POST", "path": "/api/contact", "description": "Send a sales or support message" },
     { "method": "POST", "path": "/api/subscribe", "description": "Subscribe an email to the newsletter" },
     { "method": "POST", "path": "/api/audit", "description": "Fetch a URL live and run an SEO audit" },
-    { "method": "POST", "path": "/api/tool", "description": "Run an SEO tool query (on-page checker is live; rank tracking, keyword research, backlinks, competitors and AI visibility use demo data)" },
+    { "method": "POST", "path": "/api/tool", "description": "Run an SEO tool query (on-page, rank tracking, keyword research and competitor analysis are live; backlinks and AI visibility use demo data)" },
     { "method": "GET", "path": "/api/plans", "description": "List subscription plans and limits" }
   ]
 }
