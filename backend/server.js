@@ -216,18 +216,30 @@ function demoKeywordResearch(body) {
 
 async function liveKeywordResearch(body) {
   const keyword = String(body.keyword).trim();
-  const data = await SERPER.search(keyword, { num: 10 });
+  const [searchData, suggestions] = await Promise.all([
+    SERPER.search(keyword, { num: 10 }).catch(() => ({ peopleAlsoAsk: [], relatedSearches: [] })),
+    SERPER.autocomplete(keyword).catch(() => [])
+  ]);
   const rows = [];
-  data.relatedSearches.forEach((item) => rows.push([item.query || String(item), "Related search"]));
-  data.peopleAlsoAsk.forEach((item) => rows.push([item.question || String(item), "People also ask"]));
-  if (!rows.length) throw new Error("No related keywords returned");
+  const seen = new Set();
+  const add = (text, type) => {
+    const value = String(text || "").trim();
+    const key = value.toLowerCase();
+    if (!value || seen.has(key)) return;
+    seen.add(key);
+    rows.push([value, type]);
+  };
+  suggestions.forEach((item) => add(item, "Google autocomplete"));
+  searchData.relatedSearches.forEach((item) => add(item.query || item, "Related search"));
+  searchData.peopleAlsoAsk.forEach((item) => add(item.question || item, "People also ask"));
+  if (!rows.length) throw new Error("No keyword suggestions returned");
   return {
     tool: "keyword-research",
     title: "Live keyword ideas",
-    summary: `${rows.length} real keyword ideas for "${keyword}" from Google (live).`,
+    summary: `${rows.length} real keyword suggestions for "${keyword}" from Google (live).`,
     columns: ["Keyword", "Type"],
     rows,
-    note: "Live Google related searches and People Also Ask via Serper."
+    note: "Live Google autocomplete, related searches and People Also Ask via Serper."
   };
 }
 
