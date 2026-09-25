@@ -8,7 +8,8 @@
     "dev": "node backend/server.js",
     "start": "node backend/server.js",
     "audit": "node scripts/audit.js",
-    "test": "node scripts/audit.js"
+    "test": "node scripts/audit.js",
+    "build:static": "node scripts/build-static.js"
   },
   "engines": {
     "node": ">=16"

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Visibility Tracker for ChatGPT, Gemini, and AI Overviews | OptiRank</title>
+  <meta name="description" content="Track brand mentions, sentiment, citations, and share of voice across ChatGPT, Gemini, Perplexity, AI Overviews, and AI Mode. Benchmark competitors in AI search.">
+  <link rel="canonical" href="https://www.optirank.io/tools/ai-visibility.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AI Visibility Tracker for ChatGPT, Gemini, and AI Overviews | OptiRank">
+  <meta property="og:description" content="Monitor where your brand appears and how AI platforms describe it.">
+  <meta property="og:url" content="https://www.optirank.io/tools/ai-visibility.html">
+  <link rel="stylesheet" href="/seorank/css/style.css">
+  <script src="/seorank/js/i18n-dict.js" defer></script>
+  <script src="/seorank/js/i18n.js" defer></script>
+  <script src="/seorank/js/demo-api.js" defer></script>
+  <script src="/seorank/js/site.js" defer></script>
+</head>
+<body data-page="tool">
+  <div class="promo">Meet AI Visibility 2.0 — track your brand across ChatGPT, Gemini, Perplexity, and AI Overviews. <a href="/seorank/tools/ai-visibility.html">See what's new &rarr;</a></div>
+<header class="header">
+  <div class="container header-inner">
+    <a class="logo" href="/seorank/index.html" aria-label="OptiRank home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#151a28"/><path d="M8 21l5-9 4 5 3-4 4 8" stroke="#12c8c4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      OptiRank
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+    <ul class="nav" id="nav">
+      <li><a href="/seorank/features.html">Features</a></li>
+      <li class="has-mega"><a href="/seorank/features.html">Solutions <span class="caret"></span></a>
+        <div class="mega small">
+          <h4>By business type</h4>
+          <a href="/seorank/features.html#agencies">For agencies</a>
+          <a href="/seorank/features.html#enterprises">For enterprises</a>
+          <a href="/seorank/features.html#smb">For growing business</a>
+          <a href="/seorank/contact.html">Migrate to OptiRank</a>
+        </div>
+      </li>
+      <li class="has-mega"><a href="/seorank/tools/index.html">Tools <span class="caret"></span></a>
+        <div class="mega">
+          <div>
+            <h4>Core SEO</h4>
+            <a href="/seorank/tools/rank-tracker.html">Rank Tracker</a>
+            <a href="/seorank/tools/keyword-research.html">Keyword Research</a>
+            <a href="/seorank/tools/website-audit.html">Website Audit</a>
+            <a href="/seorank/tools/on-page-checker.html">On-Page Checker</a>
+            <a href="/seorank/tools/backlink-checker.html">Backlink Checker</a>
+            <a href="/seorank/tools/competitor-analysis.html">Competitor Analysis</a>
+          </div>
+          <div>
+            <h4>AI Search</h4>
+            <a href="/seorank/tools/ai-visibility.html">AI Visibility Tracker</a>
+            <a href="/seorank/tools/ai-visibility.html#overviews">AI Overviews Tracker</a>
+            <a href="/seorank/tools/ai-visibility.html#chatgpt">ChatGPT Tracker</a>
+            <a href="/seorank/tools/ai-visibility.html#gemini">Gemini Tracker</a>
+            <a href="/seorank/tools/ai-visibility.html#perplexity">Perplexity Tracker</a>
+          </div>
+          <div>
+            <h4>More &amp; API</h4>
+            <a href="/seorank/features.html#reporting">SEO Reporting</a>
+            <a href="/seorank/features.html#content">Content Marketing</a>
+            <a href="/seorank/features.html#local">Local Marketing</a>
+            <a href="/seorank/api.html">API</a>
+            <a href="/seorank/api.html#mcp">MCP</a>
+            <a href="/seorank/tools/index.html">All tools</a>
+          </div>
+        </div>
+      </li>
+      <li><a href="/seorank/pricing.html">Pricing</a></li>
+      <li class="has-mega"><a href="/seorank/blog.html">Resources <span class="caret"></span></a>
+        <div class="mega small">
+          <h4>Learn</h4>
+          <a href="/seorank/blog.html">Blog</a>
+          <a href="/seorank/blog.html#webinars">Webinars</a>
+          <a href="/seorank/blog.html#academy">Academy</a>
+          <a href="/seorank/about.html#stories">Customer stories</a>
+        </div>
+      </li>
+      <li><a href="/seorank/api.html">API</a></li>
+      <li class="has-mega"><a href="/seorank/about.html">Company <span class="caret"></span></a>
+        <div class="mega small">
+          <h4>Company</h4>
+          <a href="/seorank/about.html">About us</a>
+          <a href="/seorank/contact.html">Contact</a>
+          <a href="/seorank/blog.html">Blog</a>
+          <a href="/seorank/privacy.html">Privacy statement</a>
+          <a href="/seorank/terms.html">Terms of service</a>
+        </div>
+      </li>
+    </ul>
+    <div class="header-actions">
+      <select class="lang hide-sm" id="langSelect" aria-label="Select language">
+        <option value="en">EN</option>
+        <option value="de">DE</option>
+        <option value="fr">FR</option>
+        <option value="es">ES</option>
+      </select>
+      <a class="btn btn-teal" href="/seorank/tools/index.html">Use tools free</a>
+    </div>
+  </div>
+</header>
+
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/seorank/index.html">Home</a> / <a href="/seorank/tools/index.html">Tools</a> / AI Visibility</nav>
+        <h1 class="h1">AI Visibility Tracker</h1>
+        <p class="sub" style="margin-left:0">See where your brand appears in AI answers, how it is described, and which competitors are winning.</p>
+        <div class="cta-row"><a class="btn btn-teal btn-lg" href="/seorank/tools/website-audit.html">Track AI visibility free</a></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid-2" style="gap:40px;align-items:start">
+        <div>
+          <h2>Check your AI visibility</h2>
+          <p class="sub" style="margin-left:0">Enter your brand name to preview mentions, sentiment, and share of voice across AI engines.</p>
+          <form data-tool-form data-tool="ai-visibility">
+            <label for="ai-brand">Brand name</label>
+            <input id="ai-brand" name="brand" type="text" placeholder="OptiRank" required>
+            <button class="btn btn-teal btn-full mt" type="submit">Check AI visibility</button>
+            <div class="alert" role="status"></div>
+          </form>
+          <p class="note">Demo dataset generated locally. No outbound requests are made to AI platforms.</p>
+        </div>
+        <div class="card">
+          <h3 id="toolSummary" class="muted">Results will appear here</h3>
+          <div id="toolResults" class="mt"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Measure your brand across AI search engines</h2>
+        <div class="grid-2 mt" style="gap:40px;align-items:center">
+          <ul>
+            <li>Comprehensive visibility analysis across five major AI engines</li>
+            <li>Competitive benchmarks for AI visibility and share of voice</li>
+            <li>In-depth analysis of prompts and sources behind AI answers</li>
+            <li>Sentiment and citation tracking over time</li>
+            <li>Alerting when new competitors appear in answers</li>
+          </ul>
+          <div class="preview" style="border-radius:20px">
+            <h4>AI share of voice</h4>
+            <div class="spark">
+              <div class="card-mini"><b>38.4%</b><p class="muted">Your brand</p></div>
+              <div class="card-mini"><b>21.7%</b><p class="muted">Top competitor</p></div>
+            </div>
+            <div class="mini-bars"><i style="height:35%"></i><i style="height:60%"></i><i style="height:48%"></i><i style="height:72%"></i><i style="height:88%"></i><i style="height:96%"></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <h2>Track every major AI engine</h2>
+        <div class="grid-4 mt">
+          <div class="card" id="overviews"><h3>AI Overviews</h3><p>Appearances and citations in Google AI Overviews.</p></div>
+          <div class="card" id="chatgpt"><h3>ChatGPT</h3><p>Mentions, links, and sentiment in ChatGPT answers.</p></div>
+          <div class="card" id="gemini"><h3>Gemini</h3><p>Visibility and sourcing in Gemini responses.</p></div>
+          <div class="card" id="perplexity"><h3>Perplexity</h3><p>Citations and share of voice in Perplexity.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Related tools</h2>
+        <div class="grid-3 mt">
+          <a class="card" href="/seorank/tools/rank-tracker.html"><h3>Rank Tracker</h3><p>Track traditional SERP positions.</p></a>
+          <a class="card" href="/seorank/tools/keyword-research.html"><h3>Keyword Research</h3><p>Discover the prompts that matter.</p></a>
+          <a class="card" href="/seorank/api.html#mcp"><h3>MCP Access</h3><p>Use AI visibility data inside assistants.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container"><div class="cta-band"><h2>Grow your AI presence</h2><p>No account required. Open any tool and start now.</p><a class="btn btn-teal btn-lg" href="/seorank/tools/index.html">Browse all tools</a></div></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="/seorank/index.html" style="color:#fff">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#12c8c4"/><path d="M8 21l5-9 4 5 3-4 4 8" stroke="#0e1320" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          OptiRank
+        </a>
+        <p class="muted" style="margin-top:12px;max-width:300px">Grow your visibility with AI SEO. Rank tracking, audits, backlinks, and AI search insights in one platform.</p>
+        <div class="socials" style="margin-top:16px">
+          <a href="https://www.facebook.com/" aria-label="Facebook">f</a>
+          <a href="https://x.com/" aria-label="X">x</a>
+          <a href="https://www.youtube.com/" aria-label="YouTube">&#9654;</a>
+          <a href="https://www.linkedin.com/" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div>
+        <h5>Core SEO tools</h5>
+        <a href="/seorank/tools/rank-tracker.html">Rank Tracker</a>
+        <a href="/seorank/tools/website-audit.html">Website Audit</a>
+        <a href="/seorank/tools/on-page-checker.html">On-Page SEO Checker</a>
+        <a href="/seorank/tools/backlink-checker.html">Backlink Checker</a>
+        <a href="/seorank/tools/keyword-research.html">Keyword Research</a>
+        <a href="/seorank/tools/index.html">All features</a>
+      </div>
+      <div>
+        <h5>Resources</h5>
+        <a href="/seorank/blog.html">SEO Blog</a>
+        <a href="/seorank/api.html">API &amp; MCP</a>
+        <a href="/seorank/pricing.html">Pricing</a>
+        <a href="/seorank/about.html">About us</a>
+        <a href="/seorank/contact.html">Contact</a>
+      </div>
+      <div>
+        <h5>Legal</h5>
+        <a href="/seorank/privacy.html">Privacy Statement</a>
+        <a href="/seorank/terms.html">Terms of Service</a>
+        <a href="/seorank/cookies.html">Cookie Policy</a>
+        <a href="/seorank/sitemap.xml">Sitemap</a>
+        <a href="/seorank/robots.txt">robots.txt</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2013&ndash;2026 OptiRank Inc. All rights reserved.</span>
+      <span>Demo project inspired by modern SEO platforms. Not affiliated with SE Ranking.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
