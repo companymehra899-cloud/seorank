@@ -623,7 +623,7 @@ function serveStatic(req, res, pathname) {
 
   res.writeHead(200, {
     "Content-Type": type,
-    "Cache-Control": ext === ".html" ? "no-cache" : "public, max-age=3600"
+    "Cache-Control": ext === ".html" || ext === ".css" ? "no-cache" : "public, max-age=3600"
   });
   res.end(body);
 }
