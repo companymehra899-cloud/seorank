@@ -36,13 +36,47 @@
       toggle.setAttribute("aria-expanded", String(open));
     });
 
-    document.querySelectorAll(".nav > li.has-mega > a").forEach(function (parent) {
-      parent.addEventListener("click", function (event) {
+    document.querySelectorAll(".nav > li.has-mega").forEach(function (item) {
+      var closeTimer = null;
+      var HOVER_HOLD_MS = 700;
+
+      function clearClose() {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+      }
+
+      function openMenu() {
+        if (window.innerWidth <= 980) return;
+        clearClose();
+        document.querySelectorAll(".nav > li.has-mega.is-open").forEach(function (other) {
+          if (other !== item) other.classList.remove("is-open");
+        });
+        item.classList.add("is-open");
+      }
+
+      function scheduleClose() {
+        if (window.innerWidth <= 980) return;
+        clearClose();
+        closeTimer = setTimeout(function () {
+          item.classList.remove("is-open");
+          closeTimer = null;
+        }, HOVER_HOLD_MS);
+      }
+
+      item.addEventListener("mouseenter", openMenu);
+      item.addEventListener("mouseleave", scheduleClose);
+      item.addEventListener("focusin", openMenu);
+      item.addEventListener("focusout", function (event) {
+        if (!item.contains(event.relatedTarget)) scheduleClose();
+      });
+
+      item.querySelector("a").addEventListener("click", function (event) {
         if (window.innerWidth > 980) return;
-        var li = parent.parentElement;
-        if (!li.classList.contains("open")) {
+        if (!item.classList.contains("open")) {
           event.preventDefault();
-          li.classList.add("open");
+          item.classList.add("open");
         }
       });
     });
