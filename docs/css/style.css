@@ -75,6 +75,14 @@ ul { list-style: none; }
 .logo svg { width: 28px; height: 28px; }
 .nav { display: flex; align-items: center; gap: 4px; flex: 1; }
 .nav > li { position: relative; }
+.nav > li.has-mega::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 18px;
+}
 .nav > li > a, .nav-btn {
   display: flex;
   align-items: center;
@@ -89,16 +97,19 @@ ul { list-style: none; }
   border-radius: 8px;
 }
 .nav > li > a:hover, .nav-btn:hover { background: var(--bg-soft); }
+.nav > li.has-mega:hover > a { background: var(--bg-soft); }
 .caret {
   width: 8px; height: 8px;
   border-right: 1.6px solid currentColor;
   border-bottom: 1.6px solid currentColor;
   transform: rotate(45deg) translateY(-2px);
+  transition: transform .15s ease;
 }
+.nav > li.has-mega:hover .caret { transform: rotate(225deg) translateY(-2px); }
 .mega {
-  display: none;
+  display: grid;
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% - 2px);
   left: 0;
   min-width: 640px;
   background: #fff;
@@ -108,8 +119,20 @@ ul { list-style: none; }
   padding: 20px;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 8px 24px;
+  z-index: 80;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity .16s ease, transform .16s ease, visibility .16s;
 }
-.nav > li:hover .mega, .nav > li:focus-within .mega { display: grid; }
+.nav > li:hover .mega,
+.nav > li:focus-within .mega {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
 .mega.small { min-width: 240px; grid-template-columns: 1fr; }
 .mega h4 { font-size: 12px; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); margin: 4px 0 8px; }
 .mega a { display: block; padding: 7px 8px; border-radius: 8px; font-size: 14px; font-weight: 600; }
@@ -541,7 +564,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shado
     padding: 12px;
     align-items: stretch;
   }
-  .mega, .nav > li:hover .mega { position: static; min-width: 0; display: none; box-shadow: none; border: 0; padding: 0 8px 8px; }
+  .nav > li.has-mega::after { display: none; }
+  .mega, .nav > li:hover .mega, .nav > li:focus-within .mega {
+    position: static;
+    min-width: 0;
+    display: none;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: none;
+    box-shadow: none;
+    border: 0;
+    padding: 0 8px 8px;
+  }
   .nav > li.open .mega { display: grid; grid-template-columns: 1fr; }
   .hero-grid, .split, .grid-4, .grid-3, .eco, .price-grid, .stats, .case, .foot-grid, .spark {
     grid-template-columns: 1fr;
