@@ -7,6 +7,7 @@ const PORT = Number(process.env.PORT || 8000);
 const ENDPOINTS = require("./endpoints.json");
 const LIVE = require("./live");
 const SERPER = require("./serper");
+const FREE = require("./free-search");
 require("./env")();
 
 const MIME = {
@@ -184,10 +185,49 @@ async function liveRankTracker(body) {
   };
 }
 
+async function freeRankTracker(body) {
+  const keyword = String(body.keyword).trim();
+  const domain = String(body.url).trim();
+  const data = await FREE.search(keyword, { num: 20 });
+  const target = data.organic.find((entry) => FREE.matchesDomain(entry.link, domain));
+  const rows = data.organic.slice(0, 10).map((entry) => {
+    const isTarget = FREE.matchesDomain(entry.link, domain);
+    return [String(entry.position || "-"), (FREE.hostOf(entry.link) || entry.link) + (isTarget ? " (your site)" : ""), entry.title || ""];
+  });
+  if (target && Number(target.position) > 10) {
+    rows.unshift([String(target.position), FREE.hostOf(target.link) + " (your site)", target.title || ""]);
+  }
+  const summary = target
+    ? `"${keyword}": ${cleanHost(domain)} ranks #${target.position} on ${data.source} (live, free).`
+    : `"${keyword}": ${cleanHost(domain)} not found in the top ${data.organic.length} ${data.source} results (live, free).`;
+  return {
+    tool: "rank-tracker",
+    title: "Live search positions",
+    summary,
+    columns: ["Position", "Domain", "Title"],
+    rows,
+    note: `Live SERP data via ${data.source} (free, no API key).`
+  };
+}
+
 async function buildRankTracker(body) {
-  if (!SERPER.enabled()) return demoRankTracker(body);
+  if (SERPER.enabled()) {
+    try {
+      return await liveRankTracker(body);
+    } catch (error) {
+      try {
+        const free = await freeRankTracker(body);
+        free.note = `Serper unavailable (${error.message}). ${free.note}`;
+        return free;
+      } catch (freeError) {
+        const fallback = demoRankTracker(body);
+        fallback.note = `Live data unavailable (${freeError.message}). Showing demo data.`;
+        return fallback;
+      }
+    }
+  }
   try {
-    return await liveRankTracker(body);
+    return await freeRankTracker(body);
   } catch (error) {
     const fallback = demoRankTracker(body);
     fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
@@ -243,10 +283,39 @@ async function liveKeywordResearch(body) {
   };
 }
 
+async function freeKeywordResearch(body) {
+  const keyword = String(body.keyword).trim();
+  const ideas = await FREE.relatedKeywords(keyword);
+  if (!ideas.length) throw new Error("No keyword suggestions returned");
+  const rows = ideas.map((item) => [item.value, item.type]);
+  return {
+    tool: "keyword-research",
+    title: "Live keyword ideas",
+    summary: `${rows.length} real keyword suggestions for "${keyword}" from Google autocomplete (live, free).`,
+    columns: ["Keyword", "Type"],
+    rows,
+    note: "Live Google autocomplete suggestions. No API key required."
+  };
+}
+
 async function buildKeywordResearch(body) {
-  if (!SERPER.enabled()) return demoKeywordResearch(body);
+  if (SERPER.enabled()) {
+    try {
+      return await liveKeywordResearch(body);
+    } catch (error) {
+      try {
+        const free = await freeKeywordResearch(body);
+        free.note = `Serper unavailable (${error.message}). ${free.note}`;
+        return free;
+      } catch (freeError) {
+        const fallback = demoKeywordResearch(body);
+        fallback.note = `Live data unavailable (${freeError.message}). Showing demo data.`;
+        return fallback;
+      }
+    }
+  }
   try {
-    return await liveKeywordResearch(body);
+    return await freeKeywordResearch(body);
   } catch (error) {
     const fallback = demoKeywordResearch(body);
     fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
@@ -258,7 +327,7 @@ function buildOnPageChecker(body) {
   return LIVE.analyzePage(String(body.url).trim());
 }
 
-function buildBacklinkChecker(body) {
+function demoBacklinkChecker(body) {
   const host = cleanHost(body.url);
   const seed = hashString(host);
   const domains = seeded(seed, 180, 4200);
@@ -278,6 +347,41 @@ function buildBacklinkChecker(body) {
     rows,
     note: TOOL_NOTE
   };
+}
+
+async function freeBacklinkChecker(body) {
+  const host = cleanHost(body.url);
+  const brand = host.split(".")[0];
+  const data = await FREE.search(host, { num: 20 });
+  const rows = [];
+  const seen = new Set();
+  for (const entry of data.organic) {
+    const referrer = FREE.hostOf(entry.link);
+    if (!referrer || FREE.matchesDomain(entry.link, host) || seen.has(referrer)) continue;
+    const hay = `${entry.link} ${entry.title} ${entry.snippet}`.toLowerCase();
+    if (!hay.includes(host) && !hay.includes(brand)) continue;
+    seen.add(referrer);
+    rows.push([referrer, entry.title || "", entry.link]);
+  }
+  if (!rows.length) throw new Error("No public mentions found");
+  return {
+    tool: "backlink-checker",
+    title: "Live web mentions",
+    summary: `${rows.length} public pages mentioning ${host} (live, free).`,
+    columns: ["Referring domain", "Title", "URL"],
+    rows: rows.slice(0, 12),
+    note: `Public web mentions via ${data.source} (free, no API key). This is not a full backlink index.`
+  };
+}
+
+async function buildBacklinkChecker(body) {
+  try {
+    return await freeBacklinkChecker(body);
+  } catch (error) {
+    const fallback = demoBacklinkChecker(body);
+    fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
+    return fallback;
+  }
 }
 
 function demoCompetitorAnalysis(body) {
@@ -322,10 +426,47 @@ async function liveCompetitorAnalysis(body) {
   };
 }
 
+async function freeCompetitorAnalysis(body) {
+  const keyword = String(body.keyword).trim();
+  const domain = String(body.url).trim();
+  const rival = String(body.competitor).trim();
+  const data = await FREE.search(keyword, { num: 20 });
+  const mine = data.organic.find((entry) => FREE.matchesDomain(entry.link, domain));
+  const theirs = data.organic.find((entry) => FREE.matchesDomain(entry.link, rival));
+  const rows = data.organic.slice(0, 10).map((entry) => {
+    const host = FREE.hostOf(entry.link) || entry.link;
+    const flag = FREE.matchesDomain(entry.link, domain) ? " (you)" : FREE.matchesDomain(entry.link, rival) ? " (rival)" : "";
+    return [String(entry.position || "-"), host + flag, entry.title || ""];
+  });
+  const summary = `"${keyword}": ${cleanHost(domain)} ${mine ? "#" + mine.position : "not in top results"}, ${cleanHost(rival)} ${theirs ? "#" + theirs.position : "not in top results"} (live, free).`;
+  return {
+    tool: "competitor-analysis",
+    title: "Live competitor positions",
+    summary,
+    columns: ["Position", "Domain", "Title"],
+    rows,
+    note: `Live SERP comparison via ${data.source} (free, no API key).`
+  };
+}
+
 async function buildCompetitorAnalysis(body) {
-  if (!SERPER.enabled()) return demoCompetitorAnalysis(body);
+  if (SERPER.enabled()) {
+    try {
+      return await liveCompetitorAnalysis(body);
+    } catch (error) {
+      try {
+        const free = await freeCompetitorAnalysis(body);
+        free.note = `Serper unavailable (${error.message}). ${free.note}`;
+        return free;
+      } catch (freeError) {
+        const fallback = demoCompetitorAnalysis(body);
+        fallback.note = `Live data unavailable (${freeError.message}). Showing demo data.`;
+        return fallback;
+      }
+    }
+  }
   try {
-    return await liveCompetitorAnalysis(body);
+    return await freeCompetitorAnalysis(body);
   } catch (error) {
     const fallback = demoCompetitorAnalysis(body);
     fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
@@ -333,7 +474,7 @@ async function buildCompetitorAnalysis(body) {
   }
 }
 
-function buildAiVisibility(body) {
+function demoAiVisibility(body) {
   const brand = String(body.brand).trim();
   const engines = ["Google AI Overviews", "ChatGPT", "Gemini", "Perplexity", "Microsoft Copilot"];
   const sentiments = ["Positive", "Positive", "Neutral", "Positive", "Neutral"];
@@ -351,6 +492,38 @@ function buildAiVisibility(body) {
     rows,
     note: TOOL_NOTE
   };
+}
+
+async function freeAiVisibility(body) {
+  const brand = String(body.brand).trim();
+  const data = await FREE.search(`${brand} AI`, { num: 15 });
+  const engines = ["ChatGPT", "Gemini", "Perplexity", "Copilot", "Claude", "AI Overview"];
+  const haystacks = data.organic.map((entry) => `${entry.title} ${entry.snippet} ${entry.link}`);
+  const rows = engines.map((engine) => {
+    const match = data.organic.find((entry) => `${entry.title} ${entry.snippet} ${entry.link}`.toLowerCase().includes(engine.toLowerCase()));
+    const count = haystacks.filter((text) => text.toLowerCase().includes(engine.toLowerCase())).length;
+    return [engine, String(count), match ? match.title : "Not in top public results", match ? match.link : "-"];
+  });
+  const hits = rows.reduce((sum, row) => sum + Number(row[1] || 0), 0);
+  const mentionRows = data.organic.slice(0, 8).map((entry) => [FREE.hostOf(entry.link) || entry.link, entry.title || "", entry.link]);
+  return {
+    tool: "ai-visibility",
+    title: "Live AI mentions",
+    summary: `${data.organic.length} public pages for "${brand} AI" via ${data.source} (live, free). ${hits} engine-name matches in those results.`,
+    columns: ["Source", "Title", "URL"],
+    rows: mentionRows,
+    note: "Public web pages for the brand + AI. No API key required. This is not inside-model citation data from ChatGPT or similar."
+  };
+}
+
+async function buildAiVisibility(body) {
+  try {
+    return await freeAiVisibility(body);
+  } catch (error) {
+    const fallback = demoAiVisibility(body);
+    fallback.note = `Live data unavailable (${error.message}). Showing demo data.`;
+    return fallback;
+  }
 }
 
 const TOOL_BUILDERS = {
