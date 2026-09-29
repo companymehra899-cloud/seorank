@@ -17,8 +17,15 @@ function hostOf(link) {
 
 function matchesDomain(link, domain) {
   const host = hostOf(link);
-  const target = String(domain || "").replace(/^www\./i, "").toLowerCase();
+  let target = String(domain || "").trim().toLowerCase().replace(/^www\./, "");
   if (!host || !target) return false;
+  try {
+    if (/^[a-z][a-z0-9+.-]*:\/\//i.test(target) || target.includes("/")) {
+      target = new URL(target.includes("://") ? target : `https://${target}`).hostname.replace(/^www\./i, "").toLowerCase();
+    }
+  } catch {
+    target = target.split("/")[0].replace(/^www\./, "");
+  }
   return host === target || host.endsWith(`.${target}`);
 }
 

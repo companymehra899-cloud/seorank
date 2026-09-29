@@ -38,6 +38,23 @@
       toggle.setAttribute("aria-expanded", String(open));
     });
 
+    document.addEventListener("click", function (event) {
+      if (!nav.classList.contains("open")) return;
+      if (nav.contains(event.target) || toggle.contains(event.target)) return;
+      nav.classList.remove("open");
+      toggle.setAttribute("aria-expanded", "false");
+    });
+
+    nav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        if (window.innerWidth > 980) return;
+        var item = link.parentElement;
+        if (item && item.classList.contains("has-mega") && !item.classList.contains("open")) return;
+        nav.classList.remove("open");
+        toggle.setAttribute("aria-expanded", "false");
+      });
+    });
+
     document.querySelectorAll(".nav > li.has-mega").forEach(function (item) {
       var closeTimer = null;
       var HOVER_HOLD_MS = 700;
@@ -194,8 +211,8 @@
             alertBox(form, data.message || data.error || "Request completed.", Boolean(data.error));
             if (!data.error) form.reset();
           })
-          .catch(function () {
-            alertBox(form, "Network error. Please try again.", true);
+          .catch(function (error) {
+            alertBox(form, error.message || "Network error. Please try again.", true);
           })
           .finally(function () {
             if (submit) submit.disabled = false;
@@ -227,7 +244,7 @@
           if (results) {
             results.innerHTML = data.checks.map(function (check) {
               var icon = check.status === "pass" ? "<span class='ok-dot'>PASS</span>" : (check.status === "warn" ? "<span style='color:#f59e0b;font-weight:800'>WARN</span>" : "<span style='color:#ef4444;font-weight:800'>FAIL</span>");
-              return "<tr><td>" + check.label + "</td><td>" + icon + "</td><td class='muted'>" + check.detail + "</td></tr>";
+              return "<tr><td>" + escapeHtml(check.label) + "</td><td>" + icon + "</td><td class='muted'>" + escapeHtml(check.detail) + "</td></tr>";
             }).join("");
           }
           if (form.querySelector(".alert")) form.querySelector(".alert").style.display = "none";
