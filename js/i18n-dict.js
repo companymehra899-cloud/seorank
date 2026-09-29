@@ -83,7 +83,6 @@
     ["Keyword", "Keyword", "Mot-clé", "Palabra clave"],
     ["Position", "Position", "Position", "Posición"],
     ["Change", "Änderung", "Variation", "Cambio"],
-    ["Trusted by 40,000+ agencies and brands worldwide", "Vertraut von über 40.000 Agenturen und Marken weltweit", "Approuvé par plus de 40 000 agences et marques dans le monde", "Con la confianza de más de 40.000 agencias y marcas en todo el mundo"],
     ["Complete AI SEO platform for every challenge", "Komplette KI-SEO-Plattform für jede Herausforderung", "Plateforme SEO IA complète pour chaque défi", "Plataforma completa de SEO con IA para cada desafío"],
     ["One platform for research, monitoring, content, local, and AI search visibility — with the reporting your clients expect.",
       "Eine Plattform für Recherche, Monitoring, Content, Local und KI-Sichtbarkeit — mit dem Reporting, das Ihre Kunden erwarten.",
