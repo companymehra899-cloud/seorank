@@ -31,7 +31,9 @@
     var nav = document.getElementById("nav");
     if (!toggle || !nav) return;
 
-    toggle.addEventListener("click", function () {
+    toggle.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
       var open = nav.classList.toggle("open");
       toggle.setAttribute("aria-expanded", String(open));
     });

@@ -558,17 +558,20 @@ input:focus, select:focus, textarea:focus { border-color: var(--teal); box-shado
 }
 
 @media (max-width: 980px) {
+  .header { position: sticky; }
   .menu-toggle { display: grid; place-items: center; margin-left: auto; }
-  .nav,
+  .nav { display: none; }
   .header-actions,
-  .header-actions .btn {
+  .header-actions .btn,
+  .hide-mobile {
     display: none !important;
   }
   .nav.open {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     position: absolute;
-    left: 0; right: 0; top: 72px;
+    left: 0; right: 0; top: 100%;
+    z-index: 90;
     background: #fff;
     border-bottom: 1px solid var(--line);
     padding: 12px;
